@@ -1,0 +1,29 @@
+{
+	"name": "adls_checkin_DS",
+	"properties": {
+		"description": "checkin.csv adls dataset",
+		"linkedServiceName": {
+			"referenceName": "LnkSvc_ADLS_Myblob",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF-ProjPhase2-Datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "checkin.csv",
+				"folderPath": "checkin",
+				"fileSystem": "bd-project"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

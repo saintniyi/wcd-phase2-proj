@@ -1,0 +1,17 @@
+{
+	"name": "LnkSvc_PostgreSql_Yelp",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "PostgreSqlV2",
+		"typeProperties": {
+			"server": "uk-rds.dfg23mjcbd6o.us-central-1.rds.amazonaws.com",
+			"port": 5432,
+			"database": "yelp",
+			"username": "postgres",
+			"sslMode": 2,
+			"authenticationType": "Basic",
+			"encryptedCredential": "jkl"
+		}
+	}
+}
