@@ -1,0 +1,12 @@
+{
+	"name": "LnkSvc_AzureLakeGen2_Using_MI",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked service for Azure Data Lake Storage Gen2 using Managed Identity",
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://sa4adf1.dfs.core.windows.net/"
+		}
+	}
+}

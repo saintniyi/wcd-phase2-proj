@@ -1,0 +1,9 @@
+{
+	"name": "df-project",
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "07fa4b4f-c5b1-4f6e-8f75-0765a1c652a",
+		"tenantId": "6e1e8d1f-6c43-4998-8a80-2a2523cc2e11"
+	}
+}

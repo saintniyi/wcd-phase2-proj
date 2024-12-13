@@ -1,0 +1,21 @@
+{
+	"name": "pgYelpDbTipDS",
+	"properties": {
+		"description": "Yelp tip dataset on Postgres",
+		"linkedServiceName": {
+			"referenceName": "LnkSvc_PostgreSql_Yelp",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF-ProjPhase2-Datasets"
+		},
+		"annotations": [],
+		"type": "PostgreSqlV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "project",
+			"table": "tip"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

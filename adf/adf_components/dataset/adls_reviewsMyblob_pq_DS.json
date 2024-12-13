@@ -1,0 +1,24 @@
+{
+	"name": "adls_reviewsMyblob_pq_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LnkSvc_ADLS_Myblob",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF-ProjPhase2-Datasets"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "de-yelp-daily",
+				"fileSystem": "bd-project"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

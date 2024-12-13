@@ -1,0 +1,25 @@
+{
+	"name": "trg_CopyOnceDaily_Sch",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "copyAllOrMissingPostsPipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2024-06-23T11:00:00",
+				"endTime": "2024-07-31T20:43:00",
+				"timeZone": "Canada Central Standard Time"
+			}
+		}
+	}
+}

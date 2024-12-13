@@ -1,0 +1,12 @@
+{
+	"name": "LnkSvc_ADLS_WCD_blob",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://destore_ext.dfs.core.windows.net",
+			"encryptedCredential": "xyz"
+		}
+	}
+}
