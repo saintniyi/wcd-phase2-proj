@@ -1,0 +1,29 @@
+{
+	"name": "adls_users_DS",
+	"properties": {
+		"description": "users.csv adls dataset",
+		"linkedServiceName": {
+			"referenceName": "LnkSvc_ADLS_Myblob",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF-ProjPhase2-Datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "users.csv",
+				"folderPath": "users",
+				"fileSystem": "bd-project"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

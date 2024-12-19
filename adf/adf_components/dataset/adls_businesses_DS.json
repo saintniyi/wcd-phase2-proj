@@ -1,0 +1,29 @@
+{
+	"name": "adls_businesses_DS",
+	"properties": {
+		"description": "businesses.csv adls dataset",
+		"linkedServiceName": {
+			"referenceName": "LnkSvc_ADLS_Myblob",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF-ProjPhase2-Datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "businesses.csv",
+				"folderPath": "businesses",
+				"fileSystem": "bd-project"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

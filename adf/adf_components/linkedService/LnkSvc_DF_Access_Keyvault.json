@@ -1,0 +1,12 @@
+{
+	"name": "LnkSvc_DF_Access_Keyvault",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Link service pointing to Key Vault that will allow Data Factory (DF) to access Key Vault (KV).\nEven though, DF can talk to KV, it still need the secret for permission",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-SecretSafe.vault.azure.net/"
+		}
+	}
+}

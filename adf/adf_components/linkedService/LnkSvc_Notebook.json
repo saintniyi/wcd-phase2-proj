@@ -1,0 +1,13 @@
+{
+	"name": "LnkSvc_Notebook",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-3344940642610786.6.azuredatabricks.net",
+			"existingClusterId": "0625-134832-8q3hbrrn",
+			"encryptedCredential": "def"
+		}
+	}
+}
