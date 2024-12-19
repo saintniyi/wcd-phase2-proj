@@ -28,7 +28,7 @@ data flow:</i>
 
 <br>
 
-![Project Architecture diagram](screenshots/projarchy.jpg)
+![Project Architecture diagram](screenshots/projarchy.png)
 
 <br>
 
