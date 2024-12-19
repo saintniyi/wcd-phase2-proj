@@ -92,7 +92,7 @@ The third stage focuses on data ingestion:
 
 ### 4: Transformation
 
-The transformation phase consists of the first and second stage transformations within the Azure Databricks notebook. This notebook is part of the Azure Data Factory pipeline workflow. The pipeline is triggered to execute daily at a specified time. Once ingestion is completed within the pipeline, it automatically invokes the Databricks notebook, which then performs the first and second stage transformations consecutively. For an overview of the entire process, refer to the [project architecture diagram](screenshots/projarchy.jpg).
+The transformation phase consists of the first and second stage transformations within the Azure Databricks notebook. This notebook is part of the Azure Data Factory pipeline workflow. The pipeline is triggered to execute daily at a specified time. Once ingestion is completed within the pipeline, it automatically invokes the Databricks notebook, which then performs the first and second stage transformations consecutively. For an overview of the entire process, refer to the [project architecture diagram](screenshots/projarchy.png).
 
 ### **First Stage Transformation**
 
