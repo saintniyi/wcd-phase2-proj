@@ -7,12 +7,13 @@ The WCD Phase 2 Project showcases data engineering using a Data Lake architectur
 
 ## Project Stages
 
-The project is divided into four stages:
+The project will be discussed under the five phases below:
 
 - [1: Storage Mount](#1-storage-mount)
 - [2: Model Training](#2-model-training)
-- [3: Data Ingestion and Transformation in a Workflow](#3-data-ingestion-and-transformation-in-a-workflow)
-- [4: Data Analytics](#4-data-analytics)
+- [3: Ingestion](#3-ingestion)
+- [4: Transformation](4-#transformation)
+- [5: Analytics and Visualizations](#5-analytics)
 
 
 ## Extra Information
@@ -34,7 +35,7 @@ data flow:</i>
 
 ### 1: Storage Mount
 
-In this stage, an Azure Storage Account with hierarchical namespace enabled is created. A container with multiple directories is set up within the Storage Account for project use. The Storage Account is then mounted with Azure Databricks, making the stored data accessible for the project. For details on the mounting code, refer to the [Mount Storage container.ipynb](adb/Mount%20Storage%20container.ipynb) notebook.
+In this stage, an Azure Storage Account with hierarchical namespace enabled is created. A container with multiple directories is set up within the Storage Account for project use. The Storage Account is then mounted with Azure Databricks, making the stored data accessible for the project. For details on the mounting code, refer to the [Mount Storage container](adb/Mount%20Storage%20container.ipynb) notebook.
 
 <br>
 
@@ -48,7 +49,7 @@ In this stage, an Azure Storage Account with hierarchical namespace enabled is c
 
 
 ### 2: Model Training
-In this stage, a machine learning model using the Logistic Regression algorithm is developed and trained with the provided training dataset in parquet format, to generate predictions and ratings. Once training is complete, the resulting model object is stored in an Azure Data Lake container for future use. For details on the model training code, refer to [Yelp Model Training.ipynb](adb/Yelp%20Model%20Training.ipynb) and [Yelp Model Training EDA.ipynb](adb/Yelp%20Model%20Training%20EDA.ipynb) notebook shows code on preliminary data exploration.
+In this stage, a machine learning model using the Logistic Regression algorithm is developed and trained with the provided training dataset in parquet format, to generate predictions and ratings. Once training is complete, the resulting model object is stored in an Azure Data Lake container for future use. For details on the model training code, refer to [Yelp Model Training](adb/Yelp%20Model%20Training.ipynb). The [Yelp Model Training EDA](adb/Yelp%20Model%20Training%20EDA.ipynb) notebook shows code on preliminary data exploration.
 
 <br>
 
@@ -60,13 +61,13 @@ In this stage, a machine learning model using the Logistic Regression algorithm 
 
 <br>
 
+### 3: Ingestion
+The third stage focuses on data ingestion:
+- **Data Sources**: Data is ingested from two sources into Azure Data Lake Storage containers using two Azure Data Factory pipelines. 
 
-### 3: Data Ingestion and Transformation in a Workflow
-The third stage focuses on data ingestion and transformation within a Workflow:
-- **Data Sources**: Data is ingested from two distinct sources into Azure Data Lake 
-containers using Azure Data Factory. 
-  - **Weekly Source**: Data is ingested weekly from four tables within a PostgreSQL relational database hosted in AWS. The data is saved in CSV format to four folders in Azure Data Lake, named after the corresponding PostgreSQL tables. The table names are: Businesses, Checkin, Tip, and Users. 
+  - **Weekly Source**: One of the Azure Data Factory pipelines ingests data from four tables in a PostgreSQL relational database hosted in AWS RDS to Azure Data Lake Storage. This process is triggered by a scheduler, which runs on a weekly basis to incrementally ingest new data. The data is saved in CSV format across four folders in Azure Data Lake Storage, with each folder named after the corresponding PostgreSQL table. The table names are: Businesses, Checkin, Tip, and Users.
 
+  
   <br>
 
   <i>See screenshot of weekly ingestion in Azure Data Factory below</i>
@@ -77,7 +78,8 @@ containers using Azure Data Factory.
   
   <br>
 
-  - **Daily Source**: Yelp review data is ingested daily from WeCloudData's public storage blob, with each folder named by the date in the format dt=Year-month-day. The data is ingested using Azure Data Factory on an incremental basis and then copied to the sink (destination) while maintaining the same folder structure, file format, and naming convention. 
+  - **Daily Source**: The second Azure Data Factory pipeline ingests daily Yelp review data from WeCloudData's public blob storage in the cloud into Azure Data Lake Storage. A scheduler triggers the pipeline to run daily, ensuring the incremental ingestion of new data. The data in the public blob storage is organized into folders, with each day data in a folder named using the format `dt=Year-month-day`. This folder structure, along with the file format and naming conventions, is preserved when the data is copied to Azure Data Lake Storage.
+
   <br>
   <i>See screenshot of daily ingestion in Azure Data Factory below</i>
 
@@ -87,7 +89,23 @@ containers using Azure Data Factory.
 
   <br>
 
-- **Transformation in a Workflow**: The ingested daily Yelp review data undergoes transformations in an Azure Databricks notebook, initiated by a daily trigger within the Azure Databricks Workflows engine. During the Workflow run, the transformed data is processed using the saved and trained machine learning model from Stage 2 to generate predictions and ratings in CSV format. All output CSV files are stored in a single Azure Data Lake folder called "final-ratings," with each file named according to the source folder in the format dt=Year-month-day.csv. For details on the transformation and workflow, refer to the daily ingestion screenshot above and [Model Deployment](adb/Model%20Deployment_Incremental.ipynb) notebook. 
+
+### 4: Transformation
+
+The transformation phase consists of the first and second stage transformations within the Azure Databricks notebook. This notebook is part of the Azure Data Factory pipeline workflow. The pipeline is triggered to execute daily at a specified time. Once ingestion is completed within the pipeline, it automatically invokes the Databricks notebook, which then performs the first and second stage transformations consecutively. For an overview of the entire process, refer to the [project architecture diagram](screenshots/projarchy.jpg).
+
+### **First Stage Transformation**
+
+In the first stage of transformations, the daily Yelp review data, stored in the Azure Data Lake Storage container during the ingestion phase as a series of folders, each named with the format `dt=Year-month-day`, is read into a dataframe one folder at a time. While multiple folders may be processed in a single day, only one day's folder is read into a dataframe at a time. Each day's dataframe then undergoes the first stage of transformations, which include converting the text to lowercase, removing extra spaces, and eliminating non-alphabetic characters, all performed through Azure Databricks.
+
+### **Second Stage Transformation**
+
+In the second stage of transformations, the dataframe from the first stage is further processed. This involves applying the Azure Databricks trained and saved machine learning model (described in the [Model Training](#2-model-training) phase). As a result, predictions and star ratings columns are added to the dataframe once the second stage transformations are complete.
+
+After the second stage transformation for each specific date is completed, the transformed output for that date, representing the dataframe after the second stage processing, is saved as a CSV file with the format `dt=Year-month-day.csv` in the "final-ratings" folder in Azure Data Lake Storage.
+
+For further details on the transformation process and workflow, refer to the [daily ingestion screenshot](adf/adf_screenshots/copyAllOrMissingPostsPipeline_Incremental.png) and the [Model Deployment](adb/Model%20Deployment_Incremental.ipynb) notebook.
+
 
 <br>
 
@@ -104,8 +122,8 @@ containers using Azure Data Factory.
 <br>
 
 
-- ### 4: Data Analytics 
-The last stage focuses on deriving insights from the combined data in the transformation output folder and all output folders from the weekly ingested data sources in Stage 3. This is accomplished using Azure Synapse Serverless SQL pool for data analytics and reporting. For details, refer to the folder [Synapse Query and Output](./synapse_powerbi/Analytics_Qry_Output/) for sample Azure Synapse analytics queries and output screenshots. Further analytics and visualization are implemented with these datasets in Power BI. See [Power BI screenshots in PDF format](synapse_powerbi/PowerBIScreenshots.pdf).
+- ### 5: Analytics 
+The last stage focuses on deriving insights from the combined data in the final-ratings folder and all output folders from the weekly ingested data sources in Stage 3. This is accomplished using Azure Synapse Serverless SQL pool for data analytics and reporting. For details, refer to the folder [Synapse Query and Output](./synapse_powerbi/Analytics_Qry_Output/) for sample Azure Synapse analytics queries and output screenshots. Further analytics and visualizations are implemented with these datasets in Power BI. See [Power BI screenshots in PDF format](synapse_powerbi/PowerBIScreenshots.pdf).
 
 Power BI screenshot extract below:
 
